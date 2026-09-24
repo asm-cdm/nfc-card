@@ -181,7 +181,7 @@
         function getStoredProfiles() {
             try {
                 const data = localStorage.getItem('nfc_card');
-                if (!data) {
+                if (data === null) {
                     localStorage.setItem('nfc_card', JSON.stringify(SEED_DATA));
                     return SEED_DATA.map(sanitizeProfile);
                 }
@@ -189,10 +189,10 @@
                 if (Array.isArray(parsed)) {
                     return parsed.map(sanitizeProfile).filter(Boolean);
                 }
-                return SEED_DATA.map(sanitizeProfile);
+                return [];
             } catch (e) {
                 console.error('Error reading nfc_card from localStorage', e);
-                return SEED_DATA.map(sanitizeProfile);
+                return [];
             }
         }
 
@@ -294,16 +294,26 @@
                 'END:VCARD'
             ].filter(Boolean).join('\r\n');
 
-            // Detect mobile browser (iOS / Android)
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const isAndroid = /Android/i.test(navigator.userAgent);
 
-            if (isMobile) {
-                // Directly launch native iOS / Android "Add to Contacts" screen
+            if (isIOS) {
+                // iOS Safari opens native contact sheet overlay
                 const encodedVCard = encodeURIComponent(vcardContent);
                 window.location.href = `data:text/vcard;charset=utf-8,${encodedVCard}`;
-                showToast('Opening Phone Contacts app...', 'success');
+                showToast('Opening iOS Contact Sheet...', 'success');
+            } else if (isAndroid) {
+                // Android downloads .vcf -> User taps 'Open' notification to import directly into Contacts app
+                const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.setAttribute('download', `${(profile.name || 'contact').toLowerCase().replace(/\s+/g, '_')}.vcf`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Downloaded! Tap "Open" on notification to save to Contacts.', 'success');
             } else {
-                // Desktop fallback: download .vcf file
+                // Desktop browser fallback download
                 const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8;' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
@@ -896,11 +906,10 @@
         function triggerResetAll() {
             confirmAction(
                 'Reset All Data?', 
-                'This will clear local storage and reload original seed profiles. Make sure you have exported a backup if needed.', 
+                'This will completely remove ALL saved cards and reset the app to a clean, fresh state.', 
                 () => {
-                    localStorage.removeItem('nfc_card');
-                    getStoredProfiles(); // Re-seeds data safely
-                    showToast('Data reset to original seed state.', 'info');
+                    localStorage.setItem('nfc_card', JSON.stringify([]));
+                    showToast('All old data removed! App is now completely fresh.', 'success');
                     renderAdminDashboard();
                 }
             );
