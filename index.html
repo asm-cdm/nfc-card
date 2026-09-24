@@ -21,12 +21,13 @@
                     },
                     colors: {
                         brand: {
-                            50: '#f0f6ff',
-                            100: '#e0edff',
-                            500: '#2563eb',
-                            600: '#1d4ed8',
-                            700: '#1e40af',
-                            900: '#0f172a'
+                            50: '#fbf4e6',
+                            100: '#f3e2bd',
+                            400: '#d9a94b',
+                            500: '#c18d31',
+                            600: '#a3721f',
+                            700: '#7d581a',
+                            900: '#2b2010'
                         }
                     }
                 }
@@ -42,7 +43,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+<body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
@@ -53,40 +54,40 @@
     </div>
 
     <!-- LIVE SMARTPHONE PREVIEW MODAL -->
-    <div id="preview-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full shadow-2xl flex flex-col overflow-hidden my-auto max-h-[90vh]">
+    <div id="preview-modal" class="fixed inset-0 bg-stone-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-stone-900 border border-stone-700 rounded-3xl max-w-md w-full shadow-2xl flex flex-col overflow-hidden my-auto max-h-[90vh]">
             <!-- Modal Header Bar -->
-            <div class="bg-slate-800 border-b border-slate-700 px-4 py-3 flex items-center justify-between">
+            <div class="bg-stone-800 border-b border-stone-700 px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <h3 class="text-xs font-bold text-white uppercase tracking-wider">Live Smartphone Preview</h3>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button id="preview-external-link" target="_blank" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-700">
+                    <button id="preview-external-link" target="_blank" class="text-xs text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1 bg-stone-900 px-2.5 py-1 rounded-lg border border-stone-700">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> New Tab
                     </button>
-                    <button onclick="closeLivePreviewModal()" class="w-7 h-7 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-full flex items-center justify-center transition">
+                    <button onclick="closeLivePreviewModal()" class="w-7 h-7 bg-stone-700 hover:bg-stone-600 text-stone-300 rounded-full flex items-center justify-center transition">
                         <i class="fa-solid fa-xmark text-sm"></i>
                     </button>
                 </div>
             </div>
             
             <!-- Smartphone Display Frame -->
-            <div id="preview-modal-content" class="overflow-y-auto flex-grow p-4 bg-slate-950">
+            <div id="preview-modal-content" class="overflow-y-auto flex-grow p-4 bg-stone-950">
                 <!-- Customer card injected dynamically -->
             </div>
         </div>
     </div>
 
     <!-- QR CODE MODAL -->
-    <div id="qr-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
+    <div id="qr-modal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-stone-800 border border-stone-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl flex flex-col items-center text-center">
             <h3 class="text-xl font-bold text-white mb-1" id="qr-modal-title">NFC Profile QR Code</h3>
-            <p class="text-xs text-slate-400 mb-4" id="qr-modal-subtitle">Scan to open digital contact profile</p>
+            <p class="text-xs text-stone-400 mb-4" id="qr-modal-subtitle">Scan to open digital contact profile</p>
             <div id="qrcode-container" class="bg-white p-4 rounded-xl shadow-inner mb-4 flex justify-center items-center"></div>
-            <div class="w-full bg-slate-900/80 p-2.5 rounded-lg border border-slate-700 text-xs text-slate-300 font-mono break-all mb-5 select-all" id="qr-modal-url"></div>
+            <div class="w-full bg-stone-900/80 p-2.5 rounded-lg border border-stone-700 text-xs text-stone-300 font-mono break-all mb-5 select-all" id="qr-modal-url"></div>
             <div class="flex gap-2 w-full">
-                <button onclick="copyModalUrl()" class="flex-1 py-2 px-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2">
+                <button onclick="copyModalUrl()" class="flex-1 py-2 px-3 bg-stone-700 hover:bg-stone-600 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2">
                     <i class="fa-regular fa-copy"></i> Copy Link
                 </button>
                 <button onclick="closeQrModal()" class="py-2 px-4 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-sm font-semibold transition">
@@ -97,15 +98,15 @@
     </div>
 
     <!-- CONFIRMATION DIALOG MODAL -->
-    <div id="confirm-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl text-center">
+    <div id="confirm-modal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-stone-800 border border-stone-700 rounded-2xl p-6 max-w-md w-full shadow-2xl text-center">
             <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
             <h3 class="text-xl font-bold text-white mb-2" id="confirm-title">Are you sure?</h3>
-            <p class="text-sm text-slate-300 mb-6" id="confirm-message">This action cannot be undone.</p>
+            <p class="text-sm text-stone-300 mb-6" id="confirm-message">This action cannot be undone.</p>
             <div class="flex gap-3 justify-center">
-                <button id="confirm-cancel-btn" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-sm font-medium transition">Cancel</button>
+                <button id="confirm-cancel-btn" class="px-5 py-2.5 bg-stone-700 hover:bg-stone-600 text-stone-200 rounded-xl text-sm font-medium transition">Cancel</button>
                 <button id="confirm-ok-btn" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-sm font-semibold transition shadow-lg shadow-red-600/30">Confirm</button>
             </div>
         </div>
@@ -227,7 +228,7 @@
             const bgClass = type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-red-600' : 'bg-brand-600';
             const iconClass = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-xmark' : 'fa-circle-info';
             
-            toast.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-xl flex items-center justify-between gap-3 transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto`;
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-xl shadow-xl flex items-center justify-between gap-3 transform transition-all duration-300 transtone-y-2 opacity-0 pointer-events-auto`;
             toast.innerHTML = `
                 <div class="flex items-center gap-2.5 text-sm font-medium">
                     <i class="fa-solid ${iconClass}"></i>
@@ -238,7 +239,7 @@
             
             container.appendChild(toast);
             setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
+                toast.classList.remove('transtone-y-2', 'opacity-0');
             }, 10);
             
             setTimeout(() => {
@@ -270,14 +271,8 @@
             };
         }
 
-        function downloadVCard(profileOrId) {
-            let profile = profileOrId;
-            if (typeof profileOrId === 'string') {
-                profile = getStoredProfiles().find(p => p.id === profileOrId);
-            }
-            if (!profile) return;
-
-            const vcardContent = [
+        function buildVCardContent(profile) {
+            return [
                 'BEGIN:VCARD',
                 'VERSION:3.0',
                 `FN:${profile.name || ''}`,
@@ -293,35 +288,52 @@
                 profile.note ? `NOTE:${profile.note.replace(/\n/g, '\\n')}` : '',
                 'END:VCARD'
             ].filter(Boolean).join('\r\n');
+        }
 
+        // Saves the contact straight to the phone. Primary path: Web Share API
+        // with a real vCard file, so the OS share sheet opens and the user taps
+        // "Contacts" directly — no Downloads-folder detour. Only falls back to
+        // the old data-URI/blob route on browsers that can't share files.
+        async function saveContact(profileOrId) {
+            let profile = profileOrId;
+            if (typeof profileOrId === 'string') {
+                profile = getStoredProfiles().find(p => p.id === profileOrId);
+            }
+            if (!profile) return;
+
+            const vcardContent = buildVCardContent(profile);
+            const fileName = `${(profile.name || 'contact').toLowerCase().replace(/\s+/g, '_')}.vcf`;
+
+            // --- Primary: native share sheet (Android Chrome, iOS Safari 16.4+) ---
+            if (navigator.canShare) {
+                try {
+                    const file = new File([vcardContent], fileName, { type: 'text/vcard' });
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({ files: [file], title: profile.name || 'Contact' });
+                        showToast('Contact saved!', 'success');
+                        return;
+                    }
+                } catch (err) {
+                    if (err && err.name === 'AbortError') return; // user closed the share sheet, don't fall back
+                    // any other error → fall through to the fallback below
+                }
+            }
+
+            // --- Fallback for browsers without file-sharing support ---
             const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-            const isAndroid = /Android/i.test(navigator.userAgent);
-
             if (isIOS) {
-                // iOS Safari opens native contact sheet overlay
                 const encodedVCard = encodeURIComponent(vcardContent);
                 window.location.href = `data:text/vcard;charset=utf-8,${encodedVCard}`;
-                showToast('Opening iOS Contact Sheet...', 'success');
-            } else if (isAndroid) {
-                // Android downloads .vcf -> User taps 'Open' notification to import directly into Contacts app
-                const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8;' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.setAttribute('download', `${(profile.name || 'contact').toLowerCase().replace(/\s+/g, '_')}.vcf`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast('Downloaded! Tap "Open" on notification to save to Contacts.', 'success');
+                showToast('Opening Contact Card...', 'success');
             } else {
-                // Desktop browser fallback download
                 const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8;' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.setAttribute('download', `${(profile.name || 'contact').toLowerCase().replace(/\s+/g, '_')}.vcf`);
+                link.setAttribute('download', fileName);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                showToast('vCard generated & downloaded!', 'success');
+                showToast('Contact file ready — open it to save.', 'success');
             }
         }
 
@@ -338,52 +350,53 @@
                 .filter(line => line && line.trim() !== '');
 
             return `
-                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-xl relative">
+                <div class="bg-stone-900/90 border border-stone-800 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-xl relative">
                     <!-- Header Banner -->
-                    <div class="h-28 bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-600 relative">
-                        <div class="absolute inset-0 bg-black/10"></div>
+                    <div class="h-24 bg-stone-950 relative overflow-hidden">
+                        <div class="absolute inset-0" style="background-image: repeating-linear-gradient(115deg, rgba(193,141,49,0.16) 0px, rgba(193,141,49,0.16) 1px, transparent 1px, transparent 14px);"></div>
+                        <div class="absolute -bottom-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-500/70 to-transparent"></div>
                     </div>
 
                     <!-- Avatar / Logo & Core Info -->
                     <div class="px-5 pb-5 pt-0 relative flex flex-col items-center text-center">
-                        <div class="-mt-14 mb-3 relative">
-                            <img src="${avatarUrl}" onerror="this.src='https://placehold.co/200x200/1e293b/64748b?text=User'" alt="${profile.name}" class="w-24 h-24 rounded-full object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
-                            <div class="absolute bottom-0.5 right-0.5 w-5 h-5 bg-emerald-500 border-2 border-slate-900 rounded-full flex items-center justify-center text-white text-[9px]" title="NFC Profile Verified">
+                        <div class="-mt-12 mb-3 relative">
+                            <img src="${avatarUrl}" onerror="this.src='https://placehold.co/200x200/1e293b/64748b?text=User'" alt="${profile.name}" class="w-24 h-24 rounded-full object-cover border-[3px] border-brand-500/70 shadow-xl bg-stone-800 p-0.5">
+                            <div class="absolute bottom-0.5 right-0.5 w-5 h-5 bg-stone-900 border-2 border-brand-500 rounded-full flex items-center justify-center text-brand-400 text-[9px]" title="NFC Profile Verified">
                                 <i class="fa-solid fa-check"></i>
                             </div>
                         </div>
 
                         <!-- Name -->
-                        <h1 class="text-xl font-bold text-white tracking-tight">${profile.name || 'Unnamed Contact'}</h1>
-                        ${profile.title ? `<p class="text-brand-400 font-medium text-xs mt-0.5">${profile.title}</p>` : ''}
+                        <h1 class="text-2xl font-bold text-white tracking-tight leading-tight">${profile.name || 'Unnamed Contact'}</h1>
+                        ${profile.title ? `<p class="text-brand-400 font-semibold text-xs mt-1 tracking-wide">${profile.title}</p>` : ''}
                         
                         <!-- Company Name (Paragraph style, max 2 lines) -->
                         ${profile.company ? `
-                            <p class="text-slate-300 text-xs mt-2.5 max-w-xs font-medium leading-relaxed line-clamp-2 text-center bg-slate-950/70 py-2 px-3.5 rounded-xl border border-slate-800/80 shadow-inner">
+                            <p class="text-stone-300 text-xs mt-2.5 max-w-xs font-medium leading-relaxed line-clamp-2 text-center bg-stone-950/70 py-2 px-3.5 rounded-xl border border-stone-800/80 shadow-inner">
                                 ${profile.company}
                             </p>
                         ` : ''}
 
-                        <!-- Download vCard CTA Button -->
-                        <button onclick="downloadVCard('${profile.id}')" 
-                                class="mt-4 w-full py-3 px-4 bg-brand-600 hover:bg-brand-500 active:scale-[0.99] text-white rounded-2xl font-semibold text-xs shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 transition duration-200">
-                            <i class="fa-solid fa-address-card text-sm"></i> Save Contact to Phone
+                        <!-- Save Contact CTA Button -->
+                        <button onclick="saveContact('${profile.id}')" 
+                                class="mt-4 w-full py-3 px-4 bg-brand-500 hover:bg-brand-400 active:scale-[0.99] text-stone-950 rounded-2xl font-bold text-xs shadow-lg shadow-brand-500/20 border border-brand-400/50 flex items-center justify-center gap-2 transition duration-200">
+                            <i class="fa-solid fa-address-card text-sm"></i> Save Contact
                         </button>
 
                         <!-- Quick Contact Call Buttons (Mobile 1, Mobile 2, Landline) -->
                         <div class="flex flex-wrap gap-2 w-full mt-3 justify-center">
                             ${profile.mobile1 ? `
-                                <a href="tel:${profile.mobile1.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-xl text-[11px] font-semibold text-slate-200 transition">
+                                <a href="tel:${profile.mobile1.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-stone-800/80 hover:bg-stone-800 border border-stone-700/60 rounded-xl text-[11px] font-semibold text-stone-200 transition">
                                     <i class="fa-solid fa-phone text-emerald-400"></i> Mobile 1
                                 </a>
                             ` : ''}
                             ${profile.mobile2 ? `
-                                <a href="tel:${profile.mobile2.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-xl text-[11px] font-semibold text-slate-200 transition">
+                                <a href="tel:${profile.mobile2.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-stone-800/80 hover:bg-stone-800 border border-stone-700/60 rounded-xl text-[11px] font-semibold text-stone-200 transition">
                                     <i class="fa-solid fa-mobile-screen text-emerald-400"></i> Mobile 2
                                 </a>
                             ` : ''}
                             ${profile.landline ? `
-                                <a href="tel:${profile.landline.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-xl text-[11px] font-semibold text-slate-200 transition">
+                                <a href="tel:${profile.landline.replace(/\s+/g, '')}" class="flex-1 min-w-[100px] flex items-center justify-center gap-1.5 py-2 px-2.5 bg-stone-800/80 hover:bg-stone-800 border border-stone-700/60 rounded-xl text-[11px] font-semibold text-stone-200 transition">
                                     <i class="fa-solid fa-phone-office text-blue-400"></i> Landline
                                 </a>
                             ` : ''}
@@ -391,19 +404,19 @@
                     </div>
 
                     <!-- Detailed Information List (ORDER: Phone Numbers -> Landline -> Office Address -> Email Address -> Location -> Remarks) -->
-                    <div class="border-t border-slate-800/80 px-5 py-4 flex flex-col gap-3.5 text-left">
+                    <div class="border-t border-stone-800/80 px-5 py-4 flex flex-col gap-3.5 text-left">
                         
                         <!-- 1. Contact Numbers (Mobile 1, Mobile 2, Landline) -->
                         ${profile.mobile1 || profile.mobile2 || profile.landline ? `
                             <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
+                                <div class="w-8 h-8 rounded-xl bg-stone-800 border border-stone-700/50 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
                                     <i class="fa-solid fa-phone"></i>
                                 </div>
                                 <div class="flex-grow">
-                                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Contact Numbers</p>
-                                    ${profile.mobile1 ? `<p class="text-xs font-medium text-slate-200">${profile.mobile1} <span class="text-[10px] text-slate-500">(Primary Mobile)</span></p>` : ''}
-                                    ${profile.mobile2 ? `<p class="text-xs font-medium text-slate-200">${profile.mobile2} <span class="text-[10px] text-slate-500">(Secondary Mobile)</span></p>` : ''}
-                                    ${profile.landline ? `<p class="text-xs font-medium text-slate-200">${profile.landline} <span class="text-[10px] text-slate-500">(Landline / Office)</span></p>` : ''}
+                                    <p class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Contact Numbers</p>
+                                    ${profile.mobile1 ? `<p class="text-xs font-medium text-stone-200">${profile.mobile1} <span class="text-[10px] text-stone-500">(Primary Mobile)</span></p>` : ''}
+                                    ${profile.mobile2 ? `<p class="text-xs font-medium text-stone-200">${profile.mobile2} <span class="text-[10px] text-stone-500">(Secondary Mobile)</span></p>` : ''}
+                                    ${profile.landline ? `<p class="text-xs font-medium text-stone-200">${profile.landline} <span class="text-[10px] text-stone-500">(Landline / Office)</span></p>` : ''}
                                 </div>
                             </div>
                         ` : ''}
@@ -411,12 +424,12 @@
                         <!-- 2. Office Address (Merged Continuous Paragraph Block) -->
                         ${addressLines.length > 0 ? `
                             <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-amber-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
+                                <div class="w-8 h-8 rounded-xl bg-stone-800 border border-stone-700/50 flex items-center justify-center text-amber-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
                                     <i class="fa-solid fa-location-dot"></i>
                                 </div>
                                 <div class="flex-grow">
-                                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Office Address</p>
-                                    <p class="text-xs font-medium text-slate-200 leading-relaxed bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 shadow-inner">
+                                    <p class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider mb-1">Office Address</p>
+                                    <p class="text-xs font-medium text-stone-200 leading-relaxed bg-stone-950/60 p-3 rounded-xl border border-stone-800/80 shadow-inner">
                                         ${addressLines.join(', ')}
                                     </p>
                                 </div>
@@ -426,12 +439,12 @@
                         <!-- 3. Email Address (Placed AFTER Office Address) -->
                         ${profile.email ? `
                             <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-brand-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
+                                <div class="w-8 h-8 rounded-xl bg-stone-800 border border-stone-700/50 flex items-center justify-center text-brand-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
                                     <i class="fa-regular fa-envelope"></i>
                                 </div>
                                 <div class="flex-grow min-w-0">
-                                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Email Address</p>
-                                    <a href="mailto:${profile.email}" class="text-xs font-medium text-slate-200 hover:text-brand-400 transition truncate block">
+                                    <p class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Email Address</p>
+                                    <a href="mailto:${profile.email}" class="text-xs font-medium text-stone-200 hover:text-brand-400 transition truncate block">
                                         ${profile.email}
                                     </a>
                                 </div>
@@ -441,7 +454,7 @@
                         <!-- 4. Location Map Link -->
                         ${profile.location ? `
                             <div class="mt-0.5">
-                                <a href="${profile.location}" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/80 rounded-xl text-xs font-semibold text-brand-300 flex items-center justify-center gap-2 transition shadow-sm">
+                                <a href="${profile.location}" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-stone-800 hover:bg-stone-700 border border-stone-700/80 rounded-xl text-xs font-semibold text-brand-300 flex items-center justify-center gap-2 transition shadow-sm">
                                     <i class="fa-solid fa-map-location-dot"></i> Open Location in Google Maps / GPS
                                 </a>
                             </div>
@@ -449,26 +462,26 @@
 
                         <!-- 5. Remarks / Note -->
                         ${profile.note ? `
-                            <div class="flex items-start gap-3 pt-2 border-t border-slate-800/50">
-                                <div class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-purple-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
+                            <div class="flex items-start gap-3 pt-2 border-t border-stone-800/50">
+                                <div class="w-8 h-8 rounded-xl bg-stone-800 border border-stone-700/50 flex items-center justify-center text-purple-400 flex-shrink-0 mt-0.5 shadow-sm text-xs">
                                     <i class="fa-regular fa-note-sticky"></i>
                                 </div>
                                 <div class="flex-grow">
-                                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Remarks / Notes</p>
-                                    <p class="text-xs text-slate-300 mt-1 whitespace-pre-line leading-relaxed bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60">${profile.note}</p>
+                                    <p class="text-[10px] font-semibold text-stone-400 uppercase tracking-wider">Remarks / Notes</p>
+                                    <p class="text-xs text-stone-300 mt-1 whitespace-pre-line leading-relaxed bg-stone-950/40 p-2.5 rounded-xl border border-stone-800/60">${profile.note}</p>
                                 </div>
                             </div>
                         ` : ''}
                     </div>
 
                     <!-- Tag ID & Conditional Powered By Footer Column -->
-                    <div class="bg-slate-950/80 px-4 py-3 border-t border-slate-800/80 text-center flex flex-col items-center gap-1">
-                        <div class="flex items-center gap-2 text-[11px] text-slate-500">
+                    <div class="bg-stone-950/80 px-4 py-3 border-t border-stone-800/80 text-center flex flex-col items-center gap-1">
+                        <div class="flex items-center gap-2 text-[11px] text-stone-500">
                             <span>Tag ID:</span>
-                            <code class="bg-slate-900 px-2 py-0.5 rounded text-brand-400 font-mono text-[10px] border border-slate-800">${profile.id}</code>
+                            <code class="bg-stone-900 px-2 py-0.5 rounded text-brand-400 font-mono text-[10px] border border-stone-800">${profile.id}</code>
                         </div>
                         ${profile.showBranding !== false ? `
-                            <div class="text-[10px] text-slate-400/50 font-medium tracking-wide uppercase mt-1">
+                            <div class="text-[10px] text-stone-400/50 font-medium tracking-wide uppercase mt-1">
                                 Powered by A.S.M Consultancy Services
                             </div>
                         ` : ''}
@@ -489,7 +502,7 @@
                             <i class="fa-solid fa-user-slash"></i>
                         </div>
                         <h1 class="text-2xl font-bold text-white mb-2">Profile Not Found</h1>
-                        <p class="text-slate-400 max-w-sm mb-6">The requested NFC contact profile ID (<code class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">${profileId}</code>) does not exist in local storage.</p>
+                        <p class="text-stone-400 max-w-sm mb-6">The requested NFC contact profile ID (<code class="bg-stone-800 px-2 py-0.5 rounded text-amber-400">${profileId}</code>) does not exist in local storage.</p>
                         <a href="${window.location.pathname}" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold shadow-lg transition">
                             Go to Admin Portal
                         </a>
@@ -499,15 +512,15 @@
             }
 
             app.innerHTML = `
-                <div class="min-h-screen bg-slate-950 flex flex-col items-center justify-between p-4 sm:p-6 relative overflow-hidden">
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+                <div class="min-h-screen bg-stone-950 flex flex-col items-center justify-between p-4 sm:p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-1/2 -transtone-x-1/2 w-96 h-96 bg-brand-600/20 blur-[120px] rounded-full pointer-events-none"></div>
 
                     <div class="w-full max-w-md my-auto pt-4 pb-8">
                         ${generateProfileCardHtml(profile)}
                     </div>
 
-                    <footer class="w-full max-w-md text-center py-3 border-t border-slate-900/80 flex flex-col items-center gap-1.5 text-xs text-slate-500">
-                        <a href="${window.location.pathname}" class="text-slate-400 hover:text-slate-200 transition underline underline-offset-4">
+                    <footer class="w-full max-w-md text-center py-3 border-t border-stone-900/80 flex flex-col items-center gap-1.5 text-xs text-stone-500">
+                        <a href="${window.location.pathname}" class="text-stone-400 hover:text-stone-200 transition underline underline-offset-4">
                             <i class="fa-solid fa-gear"></i> Admin Dashboard
                         </a>
                     </footer>
@@ -544,9 +557,9 @@
             const isLocalFile = window.location.protocol === 'file:';
 
             app.innerHTML = `
-                <div class="min-h-screen bg-slate-950 flex flex-col">
+                <div class="min-h-screen bg-stone-950 flex flex-col">
                     <!-- Top Navbar Header -->
-                    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-30">
+                    <header class="bg-stone-900 border-b border-stone-800 sticky top-0 z-30">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-600/30">
@@ -554,15 +567,15 @@
                                 </div>
                                 <div>
                                     <h1 class="text-base font-bold text-white leading-tight">NFC Business Card Engine</h1>
-                                    <p class="text-xs text-slate-400">Admin Contact Manager</p>
+                                    <p class="text-xs text-stone-400">Admin Contact Manager</p>
                                 </div>
                             </div>
 
                             <div class="flex items-center gap-2">
-                                <button onclick="exportData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                                <button onclick="exportData()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-200 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
                                     <i class="fa-solid fa-download text-emerald-400"></i> Export Backup
                                 </button>
-                                <label class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                                <label class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-200 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
                                     <i class="fa-solid fa-upload text-brand-400"></i> Restore
                                     <input type="file" id="import-file" accept=".json" onchange="importData(event)" class="hidden">
                                 </label>
@@ -577,10 +590,10 @@
                         <div class="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2.5 text-xs text-amber-300 flex items-center justify-between gap-4">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-circle-info text-amber-400"></i>
-                                <span>Testing locally from computer drive (<code class="bg-slate-900 px-1.5 py-0.5 rounded font-mono text-slate-300">file:///C:/...</code>). Set domain below:</span>
+                                <span>Testing locally from computer drive (<code class="bg-stone-900 px-1.5 py-0.5 rounded font-mono text-stone-300">file:///C:/...</code>). Set domain below:</span>
                             </div>
                             <div class="flex items-center gap-2">
-                                <input type="text" id="base-url-input" value="${localStorage.getItem('nfc_custom_base_url') || ''}" placeholder="https://asm-cdm.github.io/nfc_digital_card_engine/" class="bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-white focus:outline-none w-72 font-mono">
+                                <input type="text" id="base-url-input" value="${localStorage.getItem('nfc_custom_base_url') || ''}" placeholder="https://asm-cdm.github.io/nfc_digital_card_engine/" class="bg-stone-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-white focus:outline-none w-72 font-mono">
                                 <button onclick="updateBaseDomain()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded font-semibold text-xs transition">Save Domain</button>
                             </div>
                         </div>
@@ -591,14 +604,14 @@
                         
                         <!-- LEFT COLUMN: Profile Form (Create or Edit) -->
                         <div class="lg:col-span-5">
-                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl sticky top-24">
-                                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                            <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-xl sticky top-24">
+                                <div class="flex items-center justify-between pb-4 mb-4 border-b border-stone-800">
                                     <h2 class="text-lg font-bold text-white flex items-center gap-2">
                                         <i class="${editingProfile ? 'fa-solid fa-user-pen text-amber-400' : 'fa-solid fa-user-plus text-brand-400'}"></i>
                                         ${editingProfile ? 'Edit Contact Profile' : 'Create New NFC Profile'}
                                     </h2>
                                     ${editingProfile ? `
-                                        <button onclick="renderAdminDashboard()" class="text-xs text-slate-400 hover:text-white underline">
+                                        <button onclick="renderAdminDashboard()" class="text-xs text-stone-400 hover:text-white underline">
                                             Cancel Editing
                                         </button>
                                     ` : ''}
@@ -609,97 +622,97 @@
 
                                     <!-- Profile ID / Tag Key -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Profile ID / Slug (URL Tag Key)</label>
-                                        <input type="text" id="form-id" required value="${editingProfile ? editingProfile.id : ''}" placeholder="e.g. john-doe or customer1" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500 font-mono">
-                                        <p class="text-[11px] text-slate-500 mt-1">NFC Link format: <code class="text-brand-400">${origin}?id=[ID]</code></p>
+                                        <label class="block text-xs font-semibold text-stone-300 mb-1">Profile ID / Slug (URL Tag Key)</label>
+                                        <input type="text" id="form-id" required value="${editingProfile ? editingProfile.id : ''}" placeholder="e.g. john-doe or customer1" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500 font-mono">
+                                        <p class="text-[11px] text-stone-500 mt-1">NFC Link format: <code class="text-brand-400">${origin}?id=[ID]</code></p>
                                     </div>
 
                                     <!-- Name & Company Grid -->
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name *</label>
-                                            <input type="text" id="form-name" required value="${editingProfile ? editingProfile.name : ''}" placeholder="John Doe" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Full Name *</label>
+                                            <input type="text" id="form-name" required value="${editingProfile ? editingProfile.name : ''}" placeholder="John Doe" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Company Name</label>
-                                            <input type="text" id="form-company" value="${editingProfile ? editingProfile.company : ''}" placeholder="Acme Corp (Paragraph format)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Company Name</label>
+                                            <input type="text" id="form-company" value="${editingProfile ? editingProfile.company : ''}" placeholder="Acme Corp (Paragraph format)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                     </div>
 
                                     <!-- Job Title & Email -->
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Job Title</label>
-                                            <input type="text" id="form-title" value="${editingProfile ? editingProfile.title : ''}" placeholder="Senior Manager" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Job Title</label>
+                                            <input type="text" id="form-title" value="${editingProfile ? editingProfile.title : ''}" placeholder="Senior Manager" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
-                                            <input type="email" id="form-email" value="${editingProfile ? editingProfile.email : ''}" placeholder="john@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Email Address</label>
+                                            <input type="email" id="form-email" value="${editingProfile ? editingProfile.email : ''}" placeholder="john@example.com" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                     </div>
 
                                     <!-- Contact Numbers (Mobile 1, Mobile 2, Landline) -->
                                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mobile 1</label>
-                                            <input type="tel" id="form-mobile1" value="${editingProfile ? editingProfile.mobile1 : ''}" placeholder="+1 555 123 4567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Mobile 1</label>
+                                            <input type="tel" id="form-mobile1" value="${editingProfile ? editingProfile.mobile1 : ''}" placeholder="+1 555 123 4567" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mobile 2</label>
-                                            <input type="tel" id="form-mobile2" value="${editingProfile ? editingProfile.mobile2 : ''}" placeholder="+1 555 987 6543" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Mobile 2</label>
+                                            <input type="tel" id="form-mobile2" value="${editingProfile ? editingProfile.mobile2 : ''}" placeholder="+1 555 987 6543" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                         <div>
-                                            <label class="block text-xs font-semibold text-slate-300 mb-1">Landline</label>
-                                            <input type="tel" id="form-landline" value="${editingProfile && editingProfile.landline ? editingProfile.landline : ''}" placeholder="+1 555 400 1122" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <label class="block text-xs font-semibold text-stone-300 mb-1">Landline</label>
+                                            <input type="tel" id="form-landline" value="${editingProfile && editingProfile.landline ? editingProfile.landline : ''}" placeholder="+1 555 400 1122" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                     </div>
 
                                     <!-- Address (Paragraph Type - 5 Lines Input) -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Office Address (Merged into Paragraph)</label>
+                                        <label class="block text-xs font-semibold text-stone-300 mb-1">Office Address (Merged into Paragraph)</label>
                                         <div class="space-y-2">
-                                            <input type="text" id="form-addr1" value="${editingProfile ? editingProfile.addr1 : ''}" placeholder="Line 1: Building / Suite" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
-                                            <input type="text" id="form-addr2" value="${editingProfile ? editingProfile.addr2 : ''}" placeholder="Line 2: Street Name" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
-                                            <input type="text" id="form-addr3" value="${editingProfile ? editingProfile.addr3 : ''}" placeholder="Line 3: District / Area" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
-                                            <input type="text" id="form-addr4" value="${editingProfile ? editingProfile.addr4 : ''}" placeholder="Line 4: City, State, Zip" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
-                                            <input type="text" id="form-addr5" value="${editingProfile ? editingProfile.addr5 : ''}" placeholder="Line 5: Country" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <input type="text" id="form-addr1" value="${editingProfile ? editingProfile.addr1 : ''}" placeholder="Line 1: Building / Suite" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <input type="text" id="form-addr2" value="${editingProfile ? editingProfile.addr2 : ''}" placeholder="Line 2: Street Name" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <input type="text" id="form-addr3" value="${editingProfile ? editingProfile.addr3 : ''}" placeholder="Line 3: District / Area" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <input type="text" id="form-addr4" value="${editingProfile ? editingProfile.addr4 : ''}" placeholder="Line 4: City, State, Zip" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
+                                            <input type="text" id="form-addr5" value="${editingProfile ? editingProfile.addr5 : ''}" placeholder="Line 5: Country" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500">
                                         </div>
                                     </div>
 
                                     <!-- Location Map Link -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Location Map Link (GPS URL)</label>
-                                        <input type="url" id="form-location" value="${editingProfile ? editingProfile.location : ''}" placeholder="https://maps.google.com/?q=..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                                        <label class="block text-xs font-semibold text-stone-300 mb-1">Location Map Link (GPS URL)</label>
+                                        <input type="url" id="form-location" value="${editingProfile ? editingProfile.location : ''}" placeholder="https://maps.google.com/?q=..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
                                     </div>
 
                                     <!-- Photo / Logo Upload File -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Photo / Logo Image Upload</label>
-                                        <div class="flex items-center gap-3 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                                            <div class="w-12 h-12 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                        <label class="block text-xs font-semibold text-stone-300 mb-1">Photo / Logo Image Upload</label>
+                                        <div class="flex items-center gap-3 bg-stone-950 p-2.5 rounded-xl border border-stone-800">
+                                            <div class="w-12 h-12 rounded-lg bg-stone-900 border border-stone-700 flex items-center justify-center overflow-hidden flex-shrink-0">
                                                 <img id="photo-preview" src="${editingProfile && editingProfile.photo ? editingProfile.photo : 'https://placehold.co/100x100/1e293b/64748b?text=Upload'}" onerror="this.src='https://placehold.co/100x100/1e293b/64748b?text=Photo'" class="w-full h-full object-cover">
                                             </div>
                                             <div class="flex-grow min-w-0">
-                                                <input type="file" id="form-photo-file" accept="image/*" onchange="handlePhotoUpload(event)" class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
+                                                <input type="file" id="form-photo-file" accept="image/*" onchange="handlePhotoUpload(event)" class="block w-full text-xs text-stone-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
                                                 <input type="hidden" id="form-photo" value="${editingProfile ? editingProfile.photo : ''}">
-                                                <p class="text-[10px] text-slate-500 mt-1">Select file from device (Auto base64 upload)</p>
+                                                <p class="text-[10px] text-stone-500 mt-1">Select file from device (Auto base64 upload)</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Remarks / Note -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Remarks / Note</label>
-                                        <textarea id="form-note" rows="2" placeholder="Additional notes or instructions..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">${editingProfile ? editingProfile.note : ''}</textarea>
+                                        <label class="block text-xs font-semibold text-stone-300 mb-1">Remarks / Note</label>
+                                        <textarea id="form-note" rows="2" placeholder="Additional notes or instructions..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">${editingProfile ? editingProfile.note : ''}</textarea>
                                     </div>
 
                                     <!-- Branding Checkbox Option -->
-                                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                    <div class="bg-stone-950 p-3 rounded-xl border border-stone-800">
                                         <label class="flex items-center gap-2 cursor-pointer select-none">
-                                            <input type="checkbox" id="form-show-branding" ${!editingProfile || editingProfile.showBranding !== false ? 'checked' : ''} class="w-4 h-4 rounded border-slate-700 text-brand-600 focus:ring-brand-500 bg-slate-900">
-                                            <span class="text-xs font-medium text-slate-300">Display "Powered by A.S.M Consultancy Services" footer note</span>
+                                            <input type="checkbox" id="form-show-branding" ${!editingProfile || editingProfile.showBranding !== false ? 'checked' : ''} class="w-4 h-4 rounded border-stone-700 text-brand-600 focus:ring-brand-500 bg-stone-900">
+                                            <span class="text-xs font-medium text-stone-300">Display "Powered by A.S.M Consultancy Services" footer note</span>
                                         </label>
-                                        <p class="text-[10px] text-slate-500 mt-1 pl-6">Default checked. If unchecked, footer column is removed from profile.</p>
+                                        <p class="text-[10px] text-stone-500 mt-1 pl-6">Default checked. If unchecked, footer column is removed from profile.</p>
                                     </div>
 
                                     <!-- Submit Button -->
@@ -720,11 +733,11 @@
                                     <i class="fa-solid fa-users text-brand-400"></i>
                                     Active NFC Profiles (${profiles.length})
                                 </h2>
-                                <span class="text-xs text-slate-400">Click link buttons to program NFC cards</span>
+                                <span class="text-xs text-stone-400">Click link buttons to program NFC cards</span>
                             </div>
 
                             ${profiles.length === 0 ? `
-                                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center text-slate-500">
+                                <div class="bg-stone-900 border border-stone-800 rounded-2xl p-12 text-center text-stone-500">
                                     <i class="fa-solid fa-folder-open text-4xl mb-3 block"></i>
                                     <p class="text-sm font-medium">No customer profiles saved yet.</p>
                                     <p class="text-xs mt-1">Use the form on the left to create your first NFC profile.</p>
@@ -734,34 +747,34 @@
                                     ${profiles.map(p => {
                                         const customerUrl = `${origin}?id=${p.id}`;
                                         return `
-                                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg hover:border-slate-700 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                            <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4 shadow-lg hover:border-stone-700 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                                 <div class="flex items-center gap-3.5 min-w-0">
-                                                    <img src="${p.photo || 'https://placehold.co/100x100/1e293b/64748b?text=' + (p.name ? p.name.charAt(0) : 'C')}" onerror="this.src='https://placehold.co/100x100/1e293b/64748b?text=C'" class="w-12 h-12 rounded-xl object-cover border border-slate-700 bg-slate-800 flex-shrink-0">
+                                                    <img src="${p.photo || 'https://placehold.co/100x100/1e293b/64748b?text=' + (p.name ? p.name.charAt(0) : 'C')}" onerror="this.src='https://placehold.co/100x100/1e293b/64748b?text=C'" class="w-12 h-12 rounded-xl object-cover border border-stone-700 bg-stone-800 flex-shrink-0">
                                                     <div class="min-w-0">
                                                         <div class="flex items-center gap-2">
                                                             <h3 class="text-sm font-bold text-white truncate">${p.name || 'Unnamed'}</h3>
                                                             <span class="px-2 py-0.5 bg-brand-900/60 text-brand-300 border border-brand-700/50 rounded font-mono text-[10px] font-medium">${p.id}</span>
                                                         </div>
-                                                        <p class="text-xs text-slate-400 truncate">${p.title || 'No Title'} ${p.company ? '• ' + p.company : ''}</p>
-                                                        <p class="text-[11px] text-slate-500 truncate font-mono mt-0.5">${customerUrl}</p>
+                                                        <p class="text-xs text-stone-400 truncate">${p.title || 'No Title'} ${p.company ? '• ' + p.company : ''}</p>
+                                                        <p class="text-[11px] text-stone-500 truncate font-mono mt-0.5">${customerUrl}</p>
                                                     </div>
                                                 </div>
 
                                                 <!-- Action Buttons -->
-                                                <div class="flex items-center gap-1.5 flex-wrap sm:flex-nowrap justify-end pt-2 sm:pt-0 border-t sm:border-0 border-slate-800">
-                                                    <button onclick="openQrModal('${p.id}')" title="View QR Code" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 transition flex items-center gap-1">
+                                                <div class="flex items-center gap-1.5 flex-wrap sm:flex-nowrap justify-end pt-2 sm:pt-0 border-t sm:border-0 border-stone-800">
+                                                    <button onclick="openQrModal('${p.id}')" title="View QR Code" class="p-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-medium border border-stone-700 transition flex items-center gap-1">
                                                         <i class="fa-solid fa-qrcode text-brand-400"></i> <span class="hidden sm:inline">QR</span>
                                                     </button>
 
-                                                    <button onclick="copyToClipboard('${customerUrl}')" title="Copy Card Link" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 transition flex items-center gap-1">
+                                                    <button onclick="copyToClipboard('${customerUrl}')" title="Copy Card Link" class="p-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-medium border border-stone-700 transition flex items-center gap-1">
                                                         <i class="fa-regular fa-copy text-emerald-400"></i> <span class="hidden sm:inline">Copy</span>
                                                     </button>
 
-                                                    <button onclick="openLivePreviewModal('${p.id}')" title="Live Mobile Preview" class="p-2 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded-lg text-xs font-medium border border-slate-700 transition flex items-center gap-1">
+                                                    <button onclick="openLivePreviewModal('${p.id}')" title="Live Mobile Preview" class="p-2 bg-stone-800 hover:bg-stone-700 text-amber-300 rounded-lg text-xs font-medium border border-stone-700 transition flex items-center gap-1">
                                                         <i class="fa-solid fa-mobile-screen-button text-amber-400"></i> <span class="hidden sm:inline">Preview</span>
                                                     </button>
 
-                                                    <button onclick="renderAdminDashboard('${p.id}')" title="Edit Profile" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 transition">
+                                                    <button onclick="renderAdminDashboard('${p.id}')" title="Edit Profile" class="p-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-medium border border-stone-700 transition">
                                                         <i class="fa-solid fa-pen-to-square text-blue-400"></i>
                                                     </button>
 
@@ -778,9 +791,9 @@
                     </main>
 
                     <!-- Footer -->
-                    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500 flex flex-col items-center gap-1">
+                    <footer class="bg-stone-900 border-t border-stone-800 py-4 text-center text-xs text-stone-500 flex flex-col items-center gap-1">
                         <div>NFC Digital Contact Engine &bull; GitHub Pages & Local Storage Persistence</div>
-                        <div class="text-[11px] text-slate-400/50 font-medium tracking-wide uppercase mt-0.5">
+                        <div class="text-[11px] text-stone-400/50 font-medium tracking-wide uppercase mt-0.5">
                             Powered by A.S.M Consultancy Services
                         </div>
                     </footer>
