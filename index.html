@@ -233,16 +233,6 @@
     }
     .gallery-dots span.active { background: var(--navy); }
 
-    .btn-contact {
-      width: 100%;
-      background: var(--navy);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(15, 39, 71, 0.3);
-      min-height: 56px;
-      font-size: 17px;
-      margin-bottom: 22px;
-    }
-
     /* ---------- Footer ---------- */
     .footer {
       background: var(--navy);
@@ -289,7 +279,6 @@
 
   <main class="main">
     <p class="intro">Choose a shade card or visit us.</p>
-    <div id="contactButtonContainer"></div>
     <div id="buttonList" class="btn-list"></div>
   </main>
 
@@ -451,33 +440,6 @@
       list.appendChild(createShadeCard("Enamel Shade Card", "Enamel colour range 2026", "🎨", LINKS.enamel));
       list.appendChild(createPaletteIdeasRow(LINKS.palette, COLOUR_IDEAS_IMAGES));
       list.appendChild(createGoogleButton(LINKS.google));
-      addContactButtonIfAvailable();
-    }
-
-    /* ---------- Per-customer Contact button (ID-based, isolated) ---------- */
-    function addContactButtonIfAvailable() {
-      const container = document.getElementById("contactButtonContainer");
-      const params = new URLSearchParams(window.location.search);
-      const customerId = params.get("id") || "ASM"; // plain link with no id -> defaults to your own ASM card
-
-      // Only allow safe characters in the id, to avoid odd file paths
-      const safeId = customerId.replace(/[^a-zA-Z0-9_-]/g, "");
-      if (!safeId) return;
-
-      const vcfUrl = "contacts/" + safeId + ".vcf";
-
-      fetch(vcfUrl, { method: "GET" })
-        .then(function (res) {
-          if (!res.ok) throw new Error("not found");
-          return res.text();
-        })
-        .then(function () {
-          const btn = createLink("💾 Save My Contact", vcfUrl, "btn btn-contact", false);
-          container.appendChild(btn);
-        })
-        .catch(function () {
-          // file missing or unreadable -> silently show nothing
-        });
     }
 
     renderButtons();
