@@ -268,6 +268,16 @@
       color: #8fa3bf;
       letter-spacing: 0.3px;
     }
+
+    /* ---------- Contact menu (only when ?id= matches) ---------- */
+    .hidden { display: none !important; }
+    .who { text-align: center; margin-bottom: 18px; }
+    .who-name { font-size: 20px; font-weight: 700; color: var(--navy); }
+    .who-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .menu { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+    .menu .btn { width: 100%; flex: none; cursor: pointer; font-family: inherit; border: 0; }
+    .menu .btn-outline { border: 1.5px solid var(--navy); }
+    .btn-wa { background: #1fa855; color: #fff; box-shadow: 0 4px 10px rgba(31,168,85,0.25); }
   </style>
 </head>
 <body>
@@ -278,7 +288,8 @@
   </header>
 
   <main class="main">
-    <p class="intro">Choose a shade card or visit us.</p>
+    <p id="intro" class="intro">Choose a shade card or visit us.</p>
+    <div id="contactMenu"></div>
     <div id="buttonList" class="btn-list"></div>
   </main>
 
@@ -289,6 +300,7 @@
     <div class="powered">Powered by A.S.M Consultancy Services</div>
   </footer>
 
+  <script src="contacts.js"></script>
   <script>
 
     /* ---------- Colour Ideas image data (embedded) ---------- */
@@ -432,6 +444,92 @@
       return gallery;
     }
 
+    /* ---------- Contact mode (each function independent) ---------- */
+    function getContactId() {
+      return (new URLSearchParams(location.search).get("id") || "").trim().toLowerCase();
+    }
+
+    function findContact(id) {
+      if (!id || typeof CONTACTS === "undefined" || !Array.isArray(CONTACTS)) return null;
+      return CONTACTS.find(function (c) { return String(c.id).toLowerCase() === id; }) || null;
+    }
+
+    function phoneDigits(n) {
+      const d = String(n || "").replace(/\D/g, "");
+      return d.length === 10 ? "91" + d : d;
+    }
+
+    function vcardEscape(s) {
+      return String(s || "").replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+    }
+
+    function buildVcf(c) {
+      const L = ["BEGIN:VCARD", "VERSION:3.0", "FN:" + vcardEscape(c.name), "N:;" + vcardEscape(c.name) + ";;;"];
+      if (c.number1) L.push("TEL;TYPE=CELL:+" + phoneDigits(c.number1));
+      if (c.number2) L.push("TEL;TYPE=CELL:+" + phoneDigits(c.number2));
+      if (c.email) L.push("EMAIL:" + vcardEscape(c.email));
+      if (c.address) L.push("ADR;TYPE=WORK:;;" + vcardEscape(c.address) + ";;;;");
+      if (c.web) L.push("URL:" + c.web);
+      if (c.google) L.push("URL:" + c.google);
+      const note = [c.note, "A.S.M Agencies - Nippon Paint Channel Partner", location.href.split("#")[0]].filter(Boolean).join(" | ");
+      L.push("NOTE:" + vcardEscape(note), "END:VCARD");
+      return L.join("\r\n");
+    }
+
+    function downloadVcf(c) {
+      const blob = new Blob([buildVcf(c)], { type: "text/vcard;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = (c.name || "contact").replace(/[^\w\- ]+/g, "") + ".vcf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    }
+
+    function makeButton(label, className, onClick) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = label;
+      b.className = className;
+      b.addEventListener("click", onClick);
+      return b;
+    }
+
+    function toggleColourCards() {
+      const list = document.getElementById("buttonList");
+      list.classList.toggle("hidden");
+      if (!list.classList.contains("hidden")) list.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderContactMenu(c) {
+      const box = document.getElementById("contactMenu");
+      const who = document.createElement("div");
+      who.className = "who";
+      who.innerHTML = '<div class="who-name"></div><div class="who-note"></div>';
+      who.querySelector(".who-name").textContent = c.name;
+      who.querySelector(".who-note").textContent = c.note || "";
+
+      const menu = document.createElement("div");
+      menu.className = "menu";
+      menu.appendChild(makeButton("💾 Save Contact", "btn btn-primary", function () { downloadVcf(c); }));
+      menu.appendChild(makeButton("🎨 Nippon Colour Cards", "btn btn-outline", toggleColourCards));
+      if (c.number1) {
+        const wa = "https://wa.me/" + phoneDigits(c.number1) + "?text=" + encodeURIComponent("Hello " + c.name);
+        menu.appendChild(createLink("💬 WhatsApp Chat", wa, "btn btn-wa", false));
+      }
+      box.appendChild(who);
+      box.appendChild(menu);
+    }
+
+    function initContactMode() {
+      const c = findContact(getContactId());
+      if (!c) return;                       /* no ID / unknown ID = old page as it is */
+      document.getElementById("buttonList").classList.add("hidden");
+      document.getElementById("intro").textContent = "Tap an option below.";
+      renderContactMenu(c);
+    }
+
     /* ---------- Render ---------- */
     function renderButtons() {
       const list = document.getElementById("buttonList");
@@ -443,6 +541,7 @@
     }
 
     renderButtons();
+    initContactMode();
   </script>
 
 </body>
