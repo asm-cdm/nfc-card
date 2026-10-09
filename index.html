@@ -274,8 +274,12 @@
     .who { text-align: center; margin-bottom: 18px; }
     .who-name { font-size: 20px; font-weight: 700; color: var(--navy); }
     .who-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .menu { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
-    .menu .btn { width: 100%; flex: none; cursor: pointer; font-family: inherit; border: 0; }
+    .menu { display: flex; flex-direction: column; gap: 16px; margin: 10px 0 18px; }
+    .header .brand { overflow-wrap: anywhere; white-space: pre-line; }
+    .services { text-align: center; font-size: 14px; line-height: 1.5; color: var(--muted); white-space: pre-line; margin: 4px 0 10px; }
+    .back { display: inline-block; margin-bottom: 14px; font-size: 14px; color: var(--navy); text-decoration: none; font-weight: 600; }
+    .hint { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .menu .btn { width: 100%; flex: none; cursor: pointer; font-family: inherit; border: 0; padding: 17px 16px; font-size: 17px; }
     .menu .btn-outline { border: 1.5px solid var(--navy); }
     .btn-wa { background: #1fa855; color: #fff; box-shadow: 0 4px 10px rgba(31,168,85,0.25); }
   </style>
@@ -471,20 +475,32 @@
       if (c.address) L.push("ADR;TYPE=WORK:;;" + vcardEscape(c.address) + ";;;;");
       if (c.web) L.push("URL:" + c.web);
       if (c.google) L.push("URL:" + c.google);
-      const note = [c.note, "A.S.M Agencies - Nippon Paint Channel Partner", location.href.split("#")[0]].filter(Boolean).join(" | ");
-      L.push("NOTE:" + vcardEscape(note), "END:VCARD");
+      if (c.company) L.push("ORG:" + vcardEscape(c.company.split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean).join(", ")));
+      if (c.note) L.push("NOTE:" + vcardEscape(c.note));
+      L.push("END:VCARD");
       return L.join("\r\n");
+    }
+
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     }
 
     function downloadVcf(c) {
       const blob = new Blob([buildVcf(c)], { type: "text/vcard;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      if (isIOS()) { window.location.href = url; return; }   /* iPhone opens Add Contact directly */
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = (c.name || "contact").replace(/[^\w\- ]+/g, "") + ".vcf";
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }
+
+    function showSaveHint() {
+      const h = document.getElementById("saveHint");
+      if (h && !isIOS()) { h.textContent = "Tap the downloaded file to add the contact."; h.classList.remove("hidden"); }
     }
 
     function makeButton(label, className, onClick) {
@@ -496,38 +512,58 @@
       return b;
     }
 
-    function toggleColourCards() {
-      const list = document.getElementById("buttonList");
-      list.classList.toggle("hidden");
-      if (!list.classList.contains("hidden")) list.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    function showsNippon(c) { return c.nippon !== false; }
+
+    function cardsUrl(c) { return location.pathname + "?id=" + encodeURIComponent(c.id) + "&page=cards"; }
 
     function renderContactMenu(c) {
       const box = document.getElementById("contactMenu");
-      const who = document.createElement("div");
-      who.className = "who";
-      who.innerHTML = '<div class="who-name"></div><div class="who-note"></div>';
-      who.querySelector(".who-name").textContent = c.name;
-      who.querySelector(".who-note").textContent = c.note || "";
-
+      if (c.note) {
+        const sv = document.createElement("div");
+        sv.className = "services";
+        sv.textContent = c.note;
+        box.appendChild(sv);
+      }
       const menu = document.createElement("div");
       menu.className = "menu";
-      menu.appendChild(makeButton("💾 Save Contact", "btn btn-primary", function () { downloadVcf(c); }));
-      menu.appendChild(makeButton("🎨 Nippon Colour Cards", "btn btn-outline", toggleColourCards));
+      menu.appendChild(makeButton("💾 Save Contact", "btn btn-primary", function () { downloadVcf(c); showSaveHint(); }));
+      if (showsNippon(c)) menu.appendChild(createLink("🎨 Nippon Colour Cards", cardsUrl(c), "btn btn-outline", false));
       if (c.number1) {
-        const wa = "https://wa.me/" + phoneDigits(c.number1) + "?text=" + encodeURIComponent("Hello " + c.name);
+        const msg = c.waMessage || ("Hello " + c.name);
+        const wa = "https://wa.me/" + phoneDigits(c.number1) + "?text=" + encodeURIComponent(msg);
         menu.appendChild(createLink("💬 WhatsApp Chat", wa, "btn btn-wa", false));
       }
-      box.appendChild(who);
+      const hint = document.createElement("div");
+      hint.id = "saveHint";
+      hint.className = "hint hidden";
       box.appendChild(menu);
+      box.appendChild(hint);
+    }
+
+    function hideEl(sel) { const e = document.querySelector(sel); if (e) e.classList.add("hidden"); }
+
+    function applyIdScreen(c) {
+      const title = c.company || c.name;
+      document.querySelector(".brand").textContent = title;
+      document.title = title.replace(/\s*\r?\n\s*/g, " - ");
+      hideEl(".tagline"); hideEl("#intro"); hideEl("#buttonList"); hideEl("#phoneLink");
+      if (!showsNippon(c)) { hideEl(".footer-name"); hideEl(".footer-role"); }
+      renderContactMenu(c);
+    }
+
+    function applyCardsScreen(c) {
+      const back = document.createElement("a");
+      back.className = "back";
+      back.href = location.pathname + "?id=" + encodeURIComponent(c.id);
+      back.textContent = "← Back";
+      document.querySelector(".main").insertBefore(back, document.querySelector(".main").firstChild);
     }
 
     function initContactMode() {
       const c = findContact(getContactId());
       if (!c) return;                       /* no ID / unknown ID = old page as it is */
-      document.getElementById("buttonList").classList.add("hidden");
-      document.getElementById("intro").textContent = "Tap an option below.";
-      renderContactMenu(c);
+      const page = new URLSearchParams(location.search).get("page");
+      if (page === "cards" && showsNippon(c)) applyCardsScreen(c); else applyIdScreen(c);
     }
 
     /* ---------- Render ---------- */
