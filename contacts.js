@@ -11,7 +11,7 @@ const CONTACTS = [
     "google": "https://share.google/4HpSTj1tdQW8LD4DI",
     "waMessage": "",
     "address": "49/87 South Car Street\nChidambaram 608001",
-    "note": "Paint,  Painting Services , Business & System Digitisation",
+    "note": "Paint,  Painting Services , Business & System Digitisation\n Nippon Shade Cards :   https://asm-cdm.github.io/nfc-card/",
     "nippon": true
   }
 ];
