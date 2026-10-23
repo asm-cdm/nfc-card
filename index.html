@@ -473,8 +473,20 @@
       if (c.number2) L.push("TEL;TYPE=CELL:+" + phoneDigits(c.number2));
       if (c.email) L.push("EMAIL:" + vcardEscape(c.email));
       if (c.address) L.push("ADR;TYPE=WORK:;;" + vcardEscape(c.address) + ";;;;");
-      if (c.web) L.push("URL:" + c.web);
-      if (c.google) L.push("URL:" + c.google);
+      let n = 0;
+      function addLink(url, label) {
+        url = String(url || "").trim();
+        if (!url) return;                                   /* blank link = not saved */
+        if (!/^[a-z][a-z0-9+.-]*:/i.test(url)) url = "https://" + url;
+        n++;
+        L.push("item" + n + ".URL:" + url.replace(/\s+/g, ""));
+        L.push("item" + n + ".X-ABLabel:" + vcardEscape(String(label || "").trim() || "Link"));
+      }
+      addLink(c.web, "Website");
+      addLink(c.google, "Google Map");
+      addLink(c.link1Url, c.link1Label);
+      addLink(c.link2Url, c.link2Label);
+      addLink(c.link3Url, c.link3Label);
       if (c.company) L.push("ORG:" + vcardEscape(c.company.split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean).join(", ")));
       if (c.note) L.push("NOTE:" + vcardEscape(c.note));
       L.push("END:VCARD");
