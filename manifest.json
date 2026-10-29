@@ -1,21 +1,21 @@
 {
-  "name": "A S M Home Ledger",
-  "short_name": "Home Ledger",
-  "id": "https://asm-cdm.github.io/home-ledger/",
-  "start_url": "https://asm-cdm.github.io/home-ledger/",
-  "scope": "https://asm-cdm.github.io/home-ledger/",
+  "name": "Nippon Colour Cards",
+  "short_name": "Colour Cards",
+  "id": "https://asm-cdm.github.io/nfc-card/",
+  "start_url": "https://asm-cdm.github.io/nfc-card/",
+  "scope": "https://asm-cdm.github.io/nfc-card/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1e3a8a",
+  "theme_color": "#0f2747",
   "icons": [
     {
-      "src": "https://asm-cdm.github.io/home-ledger/favicon-192.png",
+      "src": "https://asm-cdm.github.io/nfc-card/favicon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://asm-cdm.github.io/home-ledger/favicon-512.png",
+      "src": "https://asm-cdm.github.io/nfc-card/favicon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
