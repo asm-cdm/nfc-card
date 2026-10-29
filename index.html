@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="A.S.M Agencies - Nippon Paint Channel Partner. Shade cards, colour palette and contact." />
   <meta name="theme-color" content="#0f2747" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="favicon-192.png" />
+  <link rel="apple-touch-icon" href="favicon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Colour Cards" />
   <title>A.S.M Agencies | Nippon Paint Channel Partner</title>
   <style>
     :root {
@@ -270,6 +275,9 @@
     }
 
     /* ---------- Contact menu (only when ?id= matches) ---------- */
+    .install-box { margin: 18px 0 6px; text-align: center; }
+    .install-box .btn { width: 100%; flex: none; cursor: pointer; font-family: inherit; border: 1.5px solid var(--navy); padding: 14px 16px; font-size: 16px; }
+    .install-box .hint { margin: 10px 0 0; }
     .hidden { display: none !important; }
     .who { text-align: center; margin-bottom: 18px; }
     .who-name { font-size: 20px; font-weight: 700; color: var(--navy); }
@@ -295,6 +303,7 @@
     <p id="intro" class="intro">Choose a shade card or visit us.</p>
     <div id="contactMenu"></div>
     <div id="buttonList" class="btn-list"></div>
+    <div id="installBox" class="install-box hidden"></div>
   </main>
 
   <footer class="footer">
@@ -304,7 +313,7 @@
     <div class="powered">Powered by A.S.M Consultancy Services</div>
   </footer>
 
-  <script src="contacts.js"></script>
+  <script>document.write('<script src="contacts.js?t=' + Date.now() + '"><\/script>');</script>
   <script>
 
     /* ---------- Colour Ideas image data (embedded) ---------- */
@@ -578,6 +587,59 @@
       if (page === "cards" && showsNippon(c)) applyCardsScreen(c); else applyIdScreen(c);
     }
 
+    /* ---------- Install module: Nippon Colour Cards only (independent) ---------- */
+    let deferredInstallPrompt = null;
+
+    function isStandalone() {
+      return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+    }
+
+    /* Cards screen = general page (no/unknown ID) OR ID's "Nippon Colour Cards" page. Never the ID menu screen. */
+    function isCardsScreen() {
+      const c = findContact(getContactId());
+      if (!c) return true;
+      return new URLSearchParams(location.search).get("page") === "cards" && showsNippon(c);
+    }
+
+    function hideInstallBox() {
+      const box = document.getElementById("installBox");
+      if (box) box.classList.add("hidden");
+    }
+
+    function showInstallBox() {
+      if (isStandalone() || !isCardsScreen()) return;
+      const box = document.getElementById("installBox");
+      if (!box || !box.classList.contains("hidden")) return;
+      box.innerHTML = "";
+      const hint = document.createElement("div");
+      hint.className = "hint hidden";
+      const btn = makeButton("\uD83D\uDCF2 Install Colour Cards App", "btn btn-outline", function () {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          deferredInstallPrompt.userChoice.then(function () { deferredInstallPrompt = null; hideInstallBox(); });
+        } else {
+          hint.textContent = "Tap the Share button, then choose 'Add to Home Screen'.";
+          hint.classList.remove("hidden");
+        }
+      });
+      box.appendChild(btn);
+      box.appendChild(hint);
+      box.classList.remove("hidden");
+    }
+
+    function initInstall() {
+      if ("serviceWorker" in navigator && location.protocol === "https:") {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      }
+      window.addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault();                 /* no auto mini-bar; our button only, on cards screen */
+        deferredInstallPrompt = e;
+        showInstallBox();
+      });
+      window.addEventListener("appinstalled", hideInstallBox);
+      if (isIOS()) showInstallBox();        /* iPhone has no install event: show button with Share hint */
+    }
+
     /* ---------- Render ---------- */
     function renderButtons() {
       const list = document.getElementById("buttonList");
@@ -590,6 +652,7 @@
 
     renderButtons();
     initContactMode();
+    initInstall();
   </script>
 
 </body>
