@@ -275,9 +275,11 @@
     }
 
     /* ---------- Contact menu (only when ?id= matches) ---------- */
-    .install-box { margin: 18px 0 6px; text-align: center; }
-    .install-box .btn { width: 100%; flex: none; cursor: pointer; font-family: inherit; border: 1.5px solid var(--navy); padding: 14px 16px; font-size: 16px; }
-    .install-box .hint { margin: 10px 0 0; }
+    .footer-actions { margin: 12px 0 6px; }
+    .footer-actions-row { display: flex; gap: 10px; }
+    .footer-actions .btn { flex: 1; cursor: pointer; font-family: inherit; font-size: 14px; line-height: 1.25; text-align: center; padding: 11px 8px; min-height: 48px; }
+    .footer-actions .btn-outline { border: 1.5px solid var(--navy); }
+    .footer-actions .hint { margin: 10px 0 0; }
     .hidden { display: none !important; }
     .who { text-align: center; margin-bottom: 18px; }
     .who-name { font-size: 20px; font-weight: 700; color: var(--navy); }
@@ -303,7 +305,7 @@
     <p id="intro" class="intro">Choose a shade card or visit us.</p>
     <div id="contactMenu"></div>
     <div id="buttonList" class="btn-list"></div>
-    <div id="installBox" class="install-box hidden"></div>
+    <div id="footerActions" class="footer-actions hidden"></div>
   </main>
 
   <footer class="footer">
@@ -587,8 +589,10 @@
       if (page === "cards" && showsNippon(c)) applyCardsScreen(c); else applyIdScreen(c);
     }
 
-    /* ---------- Install module: Nippon Colour Cards only (independent) ---------- */
+    /* ---------- Install + WhatsApp share row, below Google button (Nippon Colour Cards screens only) ---------- */
     let deferredInstallPrompt = null;
+    const SHARE_URL = "https://asm-cdm.github.io/nfc-card/";
+    const SHARE_TEXT = "Nippon Colour Cards \u2013 A.S.M Agencies\n" + SHARE_URL;
 
     function isStandalone() {
       return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
@@ -601,28 +605,43 @@
       return new URLSearchParams(location.search).get("page") === "cards" && showsNippon(c);
     }
 
-    function hideInstallBox() {
-      const box = document.getElementById("installBox");
-      if (box) box.classList.add("hidden");
+    function canInstall() {
+      return !isStandalone() && (!!deferredInstallPrompt || isIOS());
     }
 
-    function showInstallBox() {
-      if (isStandalone() || !isCardsScreen()) return;
-      const box = document.getElementById("installBox");
-      if (!box || !box.classList.contains("hidden")) return;
-      box.innerHTML = "";
-      const hint = document.createElement("div");
-      hint.className = "hint hidden";
-      const btn = makeButton("\uD83D\uDCF2 Install Colour Cards App", "btn btn-outline", function () {
+    function buildShareLink() {
+      const a = document.createElement("a");
+      a.className = "btn btn-wa";
+      a.href = "https://wa.me/?text=" + encodeURIComponent(SHARE_TEXT);
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "\uD83D\uDCAC Share on WhatsApp";
+      return a;
+    }
+
+    function buildInstallButton(hint) {
+      return makeButton("\uD83D\uDCF2 Install Colour Cards App", "btn btn-outline", function () {
         if (deferredInstallPrompt) {
           deferredInstallPrompt.prompt();
-          deferredInstallPrompt.userChoice.then(function () { deferredInstallPrompt = null; hideInstallBox(); });
+          deferredInstallPrompt.userChoice.then(function () { deferredInstallPrompt = null; renderFooterActions(); });
         } else {
           hint.textContent = "Tap the Share button, then choose 'Add to Home Screen'.";
           hint.classList.remove("hidden");
         }
       });
-      box.appendChild(btn);
+    }
+
+    function renderFooterActions() {
+      const box = document.getElementById("footerActions");
+      if (!box || !isCardsScreen()) return;
+      box.innerHTML = "";
+      const row = document.createElement("div");
+      row.className = "footer-actions-row";
+      const hint = document.createElement("div");
+      hint.className = "hint hidden";
+      if (canInstall()) row.appendChild(buildInstallButton(hint));
+      row.appendChild(buildShareLink());
+      box.appendChild(row);
       box.appendChild(hint);
       box.classList.remove("hidden");
     }
@@ -632,12 +651,12 @@
         navigator.serviceWorker.register("sw.js").catch(function () {});
       }
       window.addEventListener("beforeinstallprompt", function (e) {
-        e.preventDefault();                 /* no auto mini-bar; our button only, on cards screen */
+        e.preventDefault();                 /* no auto mini-bar; our button only */
         deferredInstallPrompt = e;
-        showInstallBox();
+        renderFooterActions();
       });
-      window.addEventListener("appinstalled", hideInstallBox);
-      if (isIOS()) showInstallBox();        /* iPhone has no install event: show button with Share hint */
+      window.addEventListener("appinstalled", function () { deferredInstallPrompt = null; renderFooterActions(); });
+      renderFooterActions();                /* Share always; Install only when possible (Android prompt / iPhone hint) */
     }
 
     /* ---------- Render ---------- */
